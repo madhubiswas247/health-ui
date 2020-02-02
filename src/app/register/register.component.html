@@ -1,0 +1,28 @@
+<div class="container">
+    <div class="col-md-6 col-md-offset-6">   
+    <form [formGroup]="registerForm" (ngSubmit)="register()" class="form">
+      
+      <div class="form-group">
+        <label>First Name</label>
+        <input type="text"
+               class="form-control"
+               formControlName="firstname"
+               required>
+      </div>
+    
+      <div class="form-group">
+        <label>Last Name</label>
+        <input type="last name"
+               class="form-control"
+               formControlName="lastname"
+               required>
+      </div>
+    
+      <br>
+      <br>
+      <button type="submit" name="loginSubmit" [disabled]="loginForm.invalid" click="login()">Login</button>
+      <br>
+      <br>
+    </form>
+    </div>
+    </div>
