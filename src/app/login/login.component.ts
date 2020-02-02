@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
  });
   }
 
-  register() {
+  registerHere() {
     this.router.navigate(["register"])
   }
 

@@ -17,11 +17,8 @@
                formControlName="password"
                required>
       </div>
-    
-      <br>
       <br>
       <button type="submit" name="loginSubmit" [disabled]="loginForm.invalid" click="login()">Login</button>
-      <br>
       <br>
     </form>
 
@@ -30,8 +27,8 @@
     <div *ngIf="errorMessage!=null" class="text-danger">{{errorMessage}}</div>
     <div *ngIf="successMessage!=null" class="text-danger">{{successMessage}}</div>
   </div>
-  <div>Not an Evolent user? Register Here!!</div>
-  <button  href="#" type="submit" name="register" click="register()" class="ui-button-secondary" >Register</button>
+  <div>Not an Evolent user? Register Here!!</div><br>
+  <button name="register" (click)="registerHere()" class="ui-button-secondary" >Register</button>
   </div>
 </div>
 
