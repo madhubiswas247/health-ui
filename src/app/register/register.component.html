@@ -1,5 +1,6 @@
 <div class="container">
     <div class="col-md-6 col-md-offset-6">   
+      <h5>Sign Up</h5>
     <form [formGroup]="registerForm" (ngSubmit)="register()" class="form">
       
       <div class="form-group">
@@ -7,7 +8,11 @@
         <input type="text"
                class="form-control"
                formControlName="firstname"
+               name = "firstname"
                required>
+               <p *ngIf="registerForm.controls.firstname.errors?.nameError && registerForm.get('firstname').invalid && 
+               registerForm.get('firstname').dirty 
+               " class="text-danger">{{registerForm.controls.firstname.errors.nameError.message}}</p>
       </div>
     
       <div class="form-group">
@@ -16,6 +21,9 @@
                class="form-control"
                formControlName="lastname"
                required>
+               <p *ngIf="registerForm.controls.lastname.errors?.nameError && registerForm.get('lastname').invalid && 
+               registerForm.get('lastname').dirty 
+               " class="text-danger">{{registerForm.controls.lastname.errors.nameError.message}}</p>
       </div>
        
       <div class="form-group">
@@ -24,6 +32,9 @@
                class="form-control"
                formControlName="emailid"
                required>
+               <p *ngIf="registerForm.controls.emailid.errors?.emailError && registerForm.get('emailid').invalid && 
+               registerForm.get('emailid').dirty 
+               " class="text-danger">{{registerForm.controls.emailid.errors.emailError.message}}</p>
       </div>
       <div class="form-group">
         <label>Password</label>
@@ -31,13 +42,20 @@
                class="form-control"
                formControlName="password"
                required>
+               <p *ngIf="registerForm.controls.password.errors?.passwordError && registerForm.get('password').invalid && 
+               registerForm.get('password').dirty 
+               " class="text-danger">{{registerForm.controls.password.errors.passwordError.message}}</p>       
       </div>
       <div class="form-group">
         <label>Phone Number</label>
-        <input type="number"
+        <input type="text"
                class="form-control"
                formControlName="phone"
+               maxlength="10"
                required>
+               <p *ngIf="registerForm.controls.phone.errors?.phoneError && registerForm.get('phone').invalid && 
+               registerForm.get('phone').dirty 
+               " class="text-danger">{{registerForm.controls.phone.errors.phoneError.message}}</p>       
       </div>
 
       <div class="form-group">
@@ -50,5 +68,11 @@
       <button type="submit" name="loginSubmit" [disabled]="registerForm.invalid" click="register()">Register</button>
       <br>
     </form>
+      <div class="form-group">
+      <div *ngIf="errorMessage!=null" class="text-danger">{{errorMessage}}</div>
+      <div *ngIf="successMessage!=null" class="text-danger">{{successMessage}}</div>
     </div>
     </div>
+    </div>
+
+  

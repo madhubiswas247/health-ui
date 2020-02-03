@@ -2,26 +2,22 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
 
-## Development server
+## steps to be followed for front end:-
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+1.cd evolent-health
+2.Run `npm install` for node_modules to be downloaded.
+3.Run `ng serve --open --port 4200` for a dev server. 
+4.Navigate to `http://localhost:4200/`. 
 
-## Code scaffolding
+## steps to be followed for back end:-
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1.cd evolent-backend
+2.Run `npm install` for node_modules to be downloaded.
+3.Run `npm start` for a dev server. 
+4.Server will start at  port 9000. 
 
-## Build
+## Steps to test the project :-
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+1.Register with a new email id and password.
+2.On successful registration, login into the application with the registered email and password.
+3.Test various functionality.

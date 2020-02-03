@@ -1,0 +1,213 @@
+<div class="container-fluid">
+    <div class="row">
+    <div class="col-md-4"> 
+        <div class="form-group">
+<button type="button" class="btn btn-success" (click)="getAllContacts()">List contacts</button>
+</div>
+<div class="form-group">
+    <button type="button" class="btn btn-success" (click)="addContact()">Add a contact</button>
+    </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="editContact()">Edit contact </button>
+        </div>
+    <div class="form-group">
+        <button type="button" class="btn btn-success" (click)="inactiveContact()">Delete/Inactivate a contact </button>
+        </div>
+</div>
+
+<div  class="col-md-6">
+  
+<span *ngIf="listContact">
+    <table  class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Email Id</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let contact of contacts">
+            <th scope="row"></th>
+            <td>{{contact.firstname}}</td>
+            <td>{{contact.lastname}}</td>
+            <td>{{contact.emailid}}</td>
+            <td>{{contact.phone}}</td>
+            <td>{{contact.status}}</td>
+          </tr>
+        </tbody>
+      </table>
+</span>
+
+<span *ngIf = "addcontact">
+      <form  [formGroup]="registerForm" (ngSubmit)="register()" class="form">   
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="firstname"
+                 name = "firstname"
+                 required>
+                 <p *ngIf="registerForm.controls.firstname.errors?.nameError && registerForm.get('firstname').invalid && 
+                 registerForm.get('firstname').dirty 
+                 " class="text-danger">{{registerForm.controls.firstname.errors.nameError.message}}</p>
+        </div>
+      
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="lastname"
+                 required>
+                 <p *ngIf="registerForm.controls.lastname.errors?.nameError && registerForm.get('lastname').invalid && 
+                 registerForm.get('lastname').dirty 
+                 " class="text-danger">{{registerForm.controls.lastname.errors.nameError.message}}</p>
+        </div>
+         
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email"
+                 class="form-control"
+                 formControlName="emailid"
+                 required>
+                 <p *ngIf="registerForm.controls.emailid.errors?.emailError && registerForm.get('emailid').invalid && 
+                 registerForm.get('emailid').dirty 
+                 " class="text-danger">{{registerForm.controls.emailid.errors.emailError.message}}</p>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password"
+                 class="form-control"
+                 formControlName="password"
+                 required>
+                 <p *ngIf="registerForm.controls.password.errors?.passwordError && registerForm.get('password').invalid && 
+                 registerForm.get('password').dirty 
+                 " class="text-danger">{{registerForm.controls.password.errors.passwordError.message}}</p>       
+        </div>
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="text"
+                 class="form-control"
+                 formControlName="phone"
+                 maxlength="10"
+                 required>
+                 <p *ngIf="registerForm.controls.phone.errors?.phoneError && registerForm.get('phone').invalid && 
+                 registerForm.get('phone').dirty 
+                 " class="text-danger">{{registerForm.controls.phone.errors.phoneError.message}}</p>       
+        </div>
+  
+        <div class="form-group">
+        <label>Status</label>
+        <select class="form-control" formControlName="status">
+          <option value="active">Active</option>
+          <option value="inactive">Inactive</option>
+        </select>
+        </div>
+        <button type="submit" name="loginSubmit" [disabled]="registerForm.invalid" click="register()">Add User</button>
+        <br>
+      </form>
+</span>
+
+
+<span *ngIf="editcontact">
+    <form  [formGroup]="editContactForm" (ngSubmit)="edit()" class="form">   
+    <div class="form-group">
+        <label>Select user</label>
+        <select  class="form-control" formControlName="emailid" (change)="showEditForm()">
+          <option *ngFor="let contact of contacts" value="{{contact.emailid}}">{{contact.emailid}}</option>
+        </select>
+        </div>
+
+        <span *ngIf= "editForm">
+             <div class="form-group">
+            <label>First Name</label>
+            <input type="text"
+                   class="form-control"
+                   formControlName="firstname"
+                   name = "firstname"
+                   value ="{{selectedUser.firstname}}"
+                   required>
+                   <p *ngIf="editContactForm.controls.firstname.errors?.nameError && editContactForm.get('firstname').invalid && 
+                   editContactForm.get('firstname').dirty 
+                   " class="text-danger">{{editContactForm.controls.firstname.errors.nameError.message}}</p>
+          </div>
+        
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text"
+                   class="form-control"
+                   formControlName="lastname"
+                   value ="{{selectedUser.lastname}}"
+                   required>
+                   <p *ngIf="editContactForm.controls.lastname.errors?.nameError && editContactForm.get('lastname').invalid && 
+                   editContactForm.get('lastname').dirty 
+                   " class="text-danger">{{editContactForm.controls.lastname.errors.nameError.message}}</p>
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password"
+                   class="form-control"
+                   formControlName="password"
+                   value ="{{selectedUser.password}}"
+                   required>
+                   <p *ngIf="editContactForm.controls.password.errors?.passwordError && editContactForm.get('password').invalid && 
+                   editContactForm.get('password').dirty 
+                   " class="text-danger">{{editContactForm.controls.password.errors.passwordError.message}}</p>       
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="text"
+                   class="form-control"
+                   formControlName="phone"
+                   maxlength="10"
+                   value ="{{selectedUser.phone}}"
+                   required>
+                   <p *ngIf="editContactForm.controls.phone.errors?.phoneError && editContactForm.get('phone').invalid && 
+                   editContactForm.get('phone').dirty 
+                   " class="text-danger">{{editContactForm.controls.phone.errors.phoneError.message}}</p>       
+          </div>
+    
+          <div class="form-group">
+          <label>Status</label>
+          <select class="form-control" formControlName="status"  value ="{{selectedUser.status}}">
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+          </select>
+          </div>
+          <button type="submit" name="loginSubmit" click="edit()">Edit User</button>
+          <br>
+        </span>
+     </form>
+</span>
+
+
+<span *ngIf="inactivecontact">
+
+    <form  [formGroup]="inactiveForm" (ngSubmit)="inactive()" class="form">   
+        <div class="form-group">
+            <label>Select user</label>
+            <select  class="form-control" formControlName="emailid" (change)="showStatus()">
+              <option *ngFor="let contact of contacts" value="{{contact.emailid}}">{{contact.emailid}}</option>
+            </select>
+            </div>
+
+            <span  *ngIf="showstatus">
+                <div class="form-group">
+                    <label>Status</label>
+                    <select class="form-control" formControlName="status"  value ="{{selectedUser.status}}">
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                    </div>
+                    <button type="submit" name="loginSubmit" click="edit()">Deactivate User</button>
+            </span>
+        
+            <br>
+</form>    
+</span>
+</div>
+</div>
+</div>
