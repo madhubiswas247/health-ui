@@ -12,12 +12,11 @@ export class DashboardComponent implements OnInit {
   errorMessage: string;
   successMessage:string
   registerService:RegisterService 
-  contacts:User[]
+  contacts= new Array<User>();
   listContact:boolean
   addcontact: boolean;
   editcontact:boolean;
   editForm:boolean;
-  showstatus:boolean;
   registerForm: FormGroup;
   editContactForm: FormGroup;
   selectedUser: User;
@@ -64,7 +63,6 @@ this.inactiveForm = this.formBuilder.group({
       this.editcontact= false;
        this.editForm= false;
        this.inactivecontact = false;
-       this.showstatus = false;
       }
     })
   }
@@ -75,7 +73,6 @@ this.inactiveForm = this.formBuilder.group({
 this.editcontact= false;
  this.editForm= false;
  this.inactivecontact = false;
- this.showstatus = false;
   }
 
   
@@ -93,6 +90,14 @@ this.editcontact= false;
       if(!data) {
    this.registerService.registerUser(user).subscribe((data) => {
    this.successMessage = 'User is saved successfully.';
+   this.registerForm = this.formBuilder.group({
+    firstname: "",
+    lastname: "", 
+    emailid: "",
+    password: "", 
+    phone: "", 
+    status: ""
+});
     },
     err=>{
           this.errorMessage = err.error.message;
@@ -108,14 +113,14 @@ this.editcontact= false;
   }
 
   validatePhone(c: FormControl) {
-    let PHONE_REGEXP = /\d{10}/;
-    if(c.value.length >0) {
+    let PHONE_REGEXP = /[^a-zA-Z]\d{10}/;
+    if(c.value.length >0 && c.value.length<10 && typeof(c.value)) {
     return PHONE_REGEXP.test(c.value) ? null : {
       phoneError: {
           message: "Enter 10 digit phone number."
       }
   };
-} else {
+} else if(c.value.length == 0) {
   return  {phoneError: {
         message: "Phone number is required."
     }
@@ -141,7 +146,7 @@ this.editcontact= false;
 }
 
 validateName(c: FormControl) {
-  let PHONE_REGEXP =/(^[^0-9\*&^%$#@!~_+=/?><:;,"[}{\]()|]*[a-z\.']){1,10}$/;
+  let PHONE_REGEXP =/(^[^0-9\*&^%$#@!~_+=/?><:;,"[}{\]()|]*[a-zA-Z\.']){1,10}$/;
   if(c.value.length >0 ) {
     return PHONE_REGEXP.test(c.value) ? null : {
       nameError: {
@@ -158,11 +163,11 @@ validateName(c: FormControl) {
 }
 
 validatePassword(c: FormControl) {
-  let PASSWORD_REGEXP = /^[a-zA-Z_0-9\W]{3,14}$/;
+  let PASSWORD_REGEXP = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
   if(c.value.length >0 ) {
   return PASSWORD_REGEXP.test(c.value) ? null : {
       passwordError: {
-          message: "Password should be 3 to 14 characters long."
+          message: "Password should be at least 8 characters long.Use at least 1 uppercase,1 lowercase,1 digit and 1 special character(!,@,#,$,%,^,&,*)."
       }
   };
 } else {
@@ -174,7 +179,6 @@ validatePassword(c: FormControl) {
 }
 }
 
-
 editContact() {
 
  this.editcontact = true;
@@ -182,7 +186,16 @@ editContact() {
  this.listContact = false;
  this.editForm= false;
  this.inactivecontact = false;
- this.showstatus = false;
+ this.selectedUser = new User();
+ this.contacts = [];
+ this.editContactForm.setValue({
+  emailid: "", 
+  firstname: "",
+  lastname: "",
+  password: "",
+  phone: "",
+  status: "",
+});
  this.registerService.getAllContacts().subscribe((data:User[]) => {
    this.contacts = data;
    
@@ -196,7 +209,6 @@ showEditForm() {
   this.addcontact = false;
  this.listContact = false;
  this.inactivecontact = false;
- this.showstatus = false;
   let email = this.editContactForm.get('emailid').value;
   this.selectedUser= new User();
   this.registerService.getUser(email).subscribe((data:User) => {
@@ -205,10 +217,10 @@ showEditForm() {
 }
 
 showStatus() {
-  this.showstatus = true;
   let email = this.inactiveForm.get('emailid').value;
   this.registerService.getUser(email).subscribe((data:User) => {
     this.selectedUser = data;
+ 
   });
 }
 edit() {
@@ -219,7 +231,30 @@ edit() {
   user.emailid =  this.editContactForm.value.emailid ||   this.selectedUser.emailid;
   user.phone =  this.editContactForm.value.phone ||   this.selectedUser.phone;
   user.status =  this.editContactForm.value.status ||   this.selectedUser.status;
-  this.registerService.editContact(user).subscribe((data:User[]) => {});
+  this.registerService.editContact(user).subscribe((data) => {
+    this.successMessage= data.message;
+    this.editContactForm.setValue({
+      emailid: "", 
+      firstname: "",
+      lastname: "",
+      password: "",
+      phone: "",
+      status: "",
+    });
+  });
+}
+
+deleteUser() {
+  let user = new User();
+  user.firstname =    this.selectedUser.firstname;
+  user.lastname =    this.selectedUser.lastname;
+  user.password =    this.selectedUser.password;
+  user.emailid =  this.inactiveForm.value.emailid ||   this.selectedUser.emailid;
+  user.phone =   this.selectedUser.phone;
+  user.status =  this.inactiveForm.value.status ||   this.selectedUser.status;
+  this.registerService.deleteContact(user).subscribe((data) => {
+    this.successMessage= data.message;
+  });
 }
 
 inactiveContact() {
@@ -228,20 +263,15 @@ inactiveContact() {
   this.addcontact = false;
   this.listContact = false;
   this.editForm= false;
-  this.showstatus = false;
+  this.selectedUser = new User();
+  this.contacts = [];
+  this.inactiveForm.setValue({
+    emailid: "", 
+    status: "",
+  });
   this.registerService.getAllContacts().subscribe((data:User[]) => {
     this.contacts = data;
  })
 }
 
-inactive() {
-  let user = new User();
-  user.firstname =    this.selectedUser.firstname;
-  user.lastname =    this.selectedUser.lastname;
-  user.password =    this.selectedUser.password;
-  user.emailid =  this.inactiveForm.value.emailid ||   this.selectedUser.emailid;
-  user.phone =   this.selectedUser.phone;
-  user.status =  this.inactiveForm.value.status ||   this.selectedUser.status;
-  this.registerService.editContact(user).subscribe((data:User[]) => {});
-}
 }

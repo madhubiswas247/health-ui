@@ -1,0 +1,13 @@
+label {
+    color:rgb(201, 245, 112);
+    border-color: black;
+  }
+
+  .signup {
+    color:yellow;
+}
+
+.text-danger{
+    color:rgb(255, 22, 22);
+
+}

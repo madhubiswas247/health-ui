@@ -59,13 +59,13 @@ export class RegisterComponent implements OnInit {
 
   validatePhone(c: FormControl) {
     let PHONE_REGEXP = /[^a-zA-Z]\d{10}/;
-    if(c.value.length >0) {
+    if(c.value.length >0 && c.value.length<10 && typeof(c.value)) {
     return PHONE_REGEXP.test(c.value) ? null : {
       phoneError: {
           message: "Enter 10 digit phone number."
       }
   };
-} else {
+} else if(c.value.length == 0) {
   return  {phoneError: {
         message: "Phone number is required."
     }
@@ -91,7 +91,7 @@ export class RegisterComponent implements OnInit {
 }
 
 validateName(c: FormControl) {
-  let PHONE_REGEXP =/(^[^0-9\*&^%$#@!~_+=/?><:;,"[}{\]()|]*[a-z\.']){1,10}$/;
+  let PHONE_REGEXP =/(^[^0-9\*&^%$#@!~_+=/?><:;,"[}{\]()|]*[a-zA-Z\.']){1,10}$/;
   if(c.value.length >0 ) {
     return PHONE_REGEXP.test(c.value) ? null : {
       nameError: {
@@ -108,11 +108,11 @@ validateName(c: FormControl) {
 }
 
 validatePassword(c: FormControl) {
-  let PASSWORD_REGEXP = /^[a-zA-Z_0-9\W]{3,14}$/;
+  let PASSWORD_REGEXP = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#])[A-Za-z\d@$!%*?&#]{8,}$/;
   if(c.value.length >0 ) {
   return PASSWORD_REGEXP.test(c.value) ? null : {
       passwordError: {
-          message: "Password should be 3 to 14 characters long."
+          message: "Password should be at least 8 characters long.Use at least 1 uppercase,1 lowercase,1 digit and 1 special character(!,@,#,$,%,^,&,*)."
       }
   };
 } else {

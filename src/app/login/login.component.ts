@@ -52,7 +52,12 @@ export class LoginComponent implements OnInit {
             message: "Email is invalid."
         }
     };
+  } else {
+   return {
+      emailError: {
+          message: "Email is required."
+      }
+  };
   }
 }
-
 }

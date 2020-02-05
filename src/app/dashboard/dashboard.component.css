@@ -1,3 +1,29 @@
 .btn {
     width: 200px;
 }
+
+.user-list{
+    color:black;
+}
+
+label {
+    color:rgb(201, 245, 112);
+    border-color: black;
+  }
+  .btn.btn-primary[disabled] {
+    background-color:grey;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance:textfield;
+}
+.table {
+  background-color: rgba(126, 151, 75,0.6);
+}

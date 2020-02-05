@@ -12,13 +12,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RegisterComponent } from './register/register.component';
 import { RegisterService } from './register/services/register.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { CharactersOnlyDirective } from './directives/characters-only.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    NumbersOnlyDirective,
+    CharactersOnlyDirective
   ],
   imports: [
     BrowserModule,

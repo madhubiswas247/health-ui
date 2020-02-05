@@ -30,4 +30,8 @@ export class RegisterService {
     return this.http.post<any>('http://localhost:9000/users/editUser',user);
   }
 
+  deleteContact(user:User): Observable<any>{
+    return this.http.post<any>('http://localhost:9000/users/delete',user);
+  }
+
 }
